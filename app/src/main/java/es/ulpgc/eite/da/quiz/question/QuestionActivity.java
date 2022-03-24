@@ -3,6 +3,7 @@ package es.ulpgc.eite.da.quiz.question;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,12 @@ public class QuestionActivity
   public static String TAG = QuestionActivity.class.getSimpleName();
 
   private QuestionContract.Presenter presenter;
+  Button option1Button;
+  Button option2Button;
+  Button option3Button;
+  Button nextButton;
+  Button cheatButton;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +33,7 @@ public class QuestionActivity
 
     ((TextView) findViewById(R.id.nextButton)).setText(R.string.next_button);
     ((TextView) findViewById(R.id.cheatButton)).setText(R.string.cheat_button);
-
+    initializeButtons();
     /*
     if(savedInstanceState == null) {
       AppMediator.resetInstance();
@@ -61,7 +68,6 @@ public class QuestionActivity
 
   @Override
   public void navigateToCheatScreen() {
-
     Intent intent = new Intent(this, CheatActivity.class);
     //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     startActivity(intent);
@@ -100,7 +106,30 @@ public class QuestionActivity
           .setText(R.string.incorrect_reply);
     }
   }
+  @Override
+  public void updateButtons(boolean isCorrect, boolean optionsClicked){
+      if(optionsClicked){
+        option1Button.setEnabled(false);
+        option2Button.setEnabled(false);
+        option3Button.setEnabled(false);
+        nextButton.setEnabled(true);
+        cheatButton.setEnabled(!isCorrect);
+      } else{
+        option1Button.setEnabled(true);
+        option2Button.setEnabled(true);
+        option3Button.setEnabled(true);
+        nextButton.setEnabled(false);
+        cheatButton.setEnabled(true);
+      }
 
+  }
+  public void initializeButtons(){
+    option1Button = findViewById(R.id.option1Button);
+    option2Button = findViewById(R.id.option2Button);
+    option3Button = findViewById(R.id.option3Button);
+    nextButton = findViewById(R.id.nextButton);
+    cheatButton = findViewById(R.id.cheatButton);
+  }
 
   public void onNextButtonClicked(View view) {
     presenter.onNextButtonClicked();
@@ -111,7 +140,6 @@ public class QuestionActivity
   }
 
   public void onOptionButtonClicked(View view) {
-
     int option = Integer.valueOf((String) view.getTag());
     presenter.onOptionButtonClicked(option);
   }

@@ -75,19 +75,23 @@ public class QuestionPresenter implements QuestionContract.Presenter {
     Log.e(TAG, "onDestroy()");
   }
 
-  @Override
-  public void onOptionButtonClicked(int option) {
-    Log.e(TAG, "onOptionButtonClicked()");
 
-    //TODO: falta implementacion
+@Override
+public void onOptionButtonClicked(int option) {
+  Log.e(TAG, "onOptionButtonClicked()");
+  boolean isCorrect = model.isCorrectOption(option);
+  if(isCorrect) {
+    state.cheatEnabled=false;
+  } else {
+    state.cheatEnabled=true;
+  }
+  enableNextButton();
+  updateButtons(isCorrect);
+}
 
-    boolean isCorrect = model.isCorrectOption(option);
-    if(isCorrect) {
-      state.cheatEnabled=false;
-    } else {
-      state.cheatEnabled=true;
-    }
-
+  private void updateButtons(boolean isCorrect) {
+    view.get().updateReply(isCorrect);
+    view.get().updateButtons(isCorrect, true);
   }
 
   @Override

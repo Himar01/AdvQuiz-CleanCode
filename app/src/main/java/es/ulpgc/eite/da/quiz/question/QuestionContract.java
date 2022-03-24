@@ -10,6 +10,7 @@ public interface QuestionContract {
     void displayQuestion(QuestionViewModel viewModel);
     void resetReply();
     void updateReply(boolean isCorrect);
+    void updateButtons(boolean isCorrect, boolean optionsClicked);
     void navigateToCheatScreen();
 
   }
