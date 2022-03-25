@@ -45,7 +45,6 @@ public class QuestionActivity
 
     if(savedInstanceState == null) {
       presenter.onStart();
-
     } else {
       presenter.onRestart();
     }

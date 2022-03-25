@@ -25,8 +25,8 @@ public class QuestionPresenter implements QuestionContract.Presenter {
   @Override
   public void onStart() {
     Log.e(TAG, "onStart()");
-
     // call the model
+
     state.question = model.getQuestion();
     state.option1 = model.getOption1();
     state.option2 = model.getOption2();
@@ -34,7 +34,6 @@ public class QuestionPresenter implements QuestionContract.Presenter {
 
     // reset state to tests
     state.answerCheated=false;
-
     // update the view
     disableNextButton();
     view.get().resetReply();
@@ -53,14 +52,19 @@ public class QuestionPresenter implements QuestionContract.Presenter {
   @Override
   public void onResume() {
     Log.e(TAG, "onResume()");
-
-    //TODO: falta implementacion
+    model.setQuizIndex(state.quizIndex);
 
     // use passed state if is necessary
     CheatToQuestionState savedState = getStateFromCheatScreen();
+
     if (savedState != null) {
 
       // fetch the model
+    }
+    if(state.optionClicked){
+      onOptionButtonClicked(state.option);
+    }else {
+      view.get().resetReply();
     }
 
     // update the view
@@ -77,6 +81,8 @@ public class QuestionPresenter implements QuestionContract.Presenter {
 @Override
 public void onOptionButtonClicked(int option) {
   Log.e(TAG, "onOptionButtonClicked()");
+  state.optionClicked=true;
+  state.option=option;
   boolean isCorrect = model.isCorrectOption(option);
   if(isCorrect) {
     state.cheatEnabled=false;
@@ -94,12 +100,14 @@ public void onOptionButtonClicked(int option) {
     Log.e(TAG, "onNextButtonClicked()");
     //TODO: falta implementacion
     disableNextButton();
+    state.optionClicked=false;
     model.updateQuizIndex();
-    state.quizIndex=model.getQuizIndex();
+    state.quizIndex = model.getQuizIndex();
     state.question = model.getQuestion();
     state.option1 = model.getOption1();
     state.option2 = model.getOption2();
     state.option3 = model.getOption3();
+
     view.get().displayQuestion(state);
     view.get().resetReply();
   }
@@ -133,10 +141,11 @@ public void onOptionButtonClicked(int option) {
   }
 
   private void enableNextButton(boolean isCorrect) {
+    boolean finished = model.hasQuizFinished();
     state.optionEnabled=false;
     state.cheatEnabled=!isCorrect;
-    view.get().enableNextButton(isCorrect, model.hasQuizFinished());
-    if(!model.hasQuizFinished()) {
+    view.get().enableNextButton(isCorrect, finished);
+    if(!finished) {
       state.nextEnabled=true;
 
     }
