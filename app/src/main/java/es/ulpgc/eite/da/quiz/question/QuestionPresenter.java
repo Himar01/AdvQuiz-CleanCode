@@ -44,7 +44,7 @@ public class QuestionPresenter implements QuestionContract.Presenter {
   public void onRestart() {
     Log.e(TAG, "onRestart()");
 
-    //TODO: falta implementacion
+
 
   }
 
@@ -58,18 +58,26 @@ public class QuestionPresenter implements QuestionContract.Presenter {
     CheatToQuestionState savedState = getStateFromCheatScreen();
 
     if (savedState != null) {
-
-      // fetch the model
+      state.answerCheated = savedState.answerCheated;
     }
+
     if(state.optionClicked){
       onOptionButtonClicked(state.option);
     }else {
       view.get().resetReply();
     }
+    if(state.answerCheated){
+      if(!model.hasQuizFinished()){
+        onNextButtonClicked();
+      }else{
+        state.optionEnabled=false;
+      }
 
+    }
     // update the view
     view.get().displayQuestion(state);
   }
+
 
 
   @Override
@@ -98,7 +106,6 @@ public void onOptionButtonClicked(int option) {
   @Override
   public void onNextButtonClicked() {
     Log.e(TAG, "onNextButtonClicked()");
-    //TODO: falta implementacion
     disableNextButton();
     state.optionClicked=false;
     model.updateQuizIndex();
@@ -115,28 +122,26 @@ public void onOptionButtonClicked(int option) {
   @Override
   public void onCheatButtonClicked() {
     Log.e(TAG, "onCheatButtonClicked()");
-
-    //TODO: falta implementacion
+        view.get().navigateToCheatScreen();
+        QuestionToCheatState state = new QuestionToCheatState();
+        passStateToCheatScreen(state);
   }
 
   private void passStateToCheatScreen(QuestionToCheatState state) {
-
-    //TODO: falta implementacion
-
+    state.answer = model.getAnswer();
+    mediator.setQuestionToCheatState(state);
   }
 
   private CheatToQuestionState getStateFromCheatScreen() {
-
-    //TODO: falta implementacion
-
-    return null;
+    return mediator.getCheatToQuestionState();
   }
 
   private void disableNextButton() {
     state.optionEnabled=true;
-    state.cheatEnabled=true;
+    state.cheatEnabled= true;
     state.nextEnabled=false;
-    view.get().disableNextButton();
+    //resets answerCheated
+    state.answerCheated=false;
 
   }
 

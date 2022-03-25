@@ -6,7 +6,6 @@ public interface CheatContract {
 
   interface View {
     void injectPresenter(Presenter presenter);
-
     void displayAnswer(CheatViewModel viewModel);
     void resetAnswer();
     void onFinish();

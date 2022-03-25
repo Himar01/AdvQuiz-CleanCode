@@ -70,13 +70,11 @@ public class CheatActivity
   @Override
   public void displayAnswer(CheatViewModel viewModel) {
     //Log.e(TAG, "displayAnswer()");
-
     // deal with the answer
     ((TextView) findViewById(R.id.answerTextView)).setText(viewModel.answer);
     findViewById(R.id.noButton).setEnabled(viewModel.answerEnabled);
     findViewById(R.id.yesButton).setEnabled(viewModel.answerEnabled);
   }
-
   @Override
   public void resetAnswer() {
     ((TextView) findViewById(R.id.answerTextView))

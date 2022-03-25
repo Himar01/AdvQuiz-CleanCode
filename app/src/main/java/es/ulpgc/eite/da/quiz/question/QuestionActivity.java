@@ -89,7 +89,6 @@ public class QuestionActivity
     findViewById(R.id.nextButton).setEnabled(viewModel.nextEnabled);
     findViewById(R.id.cheatButton).setEnabled(viewModel.cheatEnabled);
   }
-
   @Override
   public void resetReply() {
     ((TextView) findViewById(R.id.replyTextView))
@@ -114,14 +113,7 @@ public class QuestionActivity
       nextButton.setEnabled(!isFinished);
       cheatButton.setEnabled(!isCorrect);
   }
-  @Override
-  public void disableNextButton() {
-    option1Button.setEnabled(true);
-    option2Button.setEnabled(true);
-    option3Button.setEnabled(true);
-    nextButton.setEnabled(false);
-    cheatButton.setEnabled(true);
-  }
+
 
   public void initializeButtons(){
     option1Button = findViewById(R.id.option1Button);

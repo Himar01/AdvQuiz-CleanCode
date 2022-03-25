@@ -13,7 +13,7 @@ public interface QuestionContract {
     void enableNextButton(boolean isCorrect, boolean isFinished);
     void navigateToCheatScreen();
 
-    void disableNextButton();
+
   }
 
   interface Presenter {
