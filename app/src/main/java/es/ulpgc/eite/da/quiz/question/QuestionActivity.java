@@ -73,6 +73,7 @@ public class QuestionActivity
     startActivity(intent);
   }
 
+
   @Override
   public void displayQuestion(QuestionViewModel viewModel) {
     //Log.e(TAG, "displayQuestion()");
@@ -107,22 +108,22 @@ public class QuestionActivity
     }
   }
   @Override
-  public void updateButtons(boolean isCorrect, boolean optionsClicked){
-      if(optionsClicked){
-        option1Button.setEnabled(false);
-        option2Button.setEnabled(false);
-        option3Button.setEnabled(false);
-        nextButton.setEnabled(true);
-        cheatButton.setEnabled(!isCorrect);
-      } else{
-        option1Button.setEnabled(true);
-        option2Button.setEnabled(true);
-        option3Button.setEnabled(true);
-        nextButton.setEnabled(false);
-        cheatButton.setEnabled(true);
-      }
-
+  public void enableNextButton(boolean isCorrect, boolean isFinished){
+      option1Button.setEnabled(false);
+      option2Button.setEnabled(false);
+      option3Button.setEnabled(false);
+      nextButton.setEnabled(!isFinished);
+      cheatButton.setEnabled(!isCorrect);
   }
+  @Override
+  public void disableNextButton() {
+    option1Button.setEnabled(true);
+    option2Button.setEnabled(true);
+    option3Button.setEnabled(true);
+    nextButton.setEnabled(false);
+    cheatButton.setEnabled(true);
+  }
+
   public void initializeButtons(){
     option1Button = findViewById(R.id.option1Button);
     option2Button = findViewById(R.id.option2Button);

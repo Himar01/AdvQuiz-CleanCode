@@ -13,8 +13,8 @@ public class QuestionViewModel {
   public boolean nextEnabled;
   public boolean cheatEnabled;
 
-  public boolean optionClicked;
-  public int option;
+
+
 
   public boolean answerCheated;
 }

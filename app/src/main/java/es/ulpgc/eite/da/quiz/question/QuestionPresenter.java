@@ -34,8 +34,6 @@ public class QuestionPresenter implements QuestionContract.Presenter {
 
     // reset state to tests
     state.answerCheated=false;
-    state.optionClicked = false;
-    state.option = 0;
 
     // update the view
     disableNextButton();
@@ -85,20 +83,25 @@ public void onOptionButtonClicked(int option) {
   } else {
     state.cheatEnabled=true;
   }
-  enableNextButton();
-  updateButtons(isCorrect);
+  enableNextButton(isCorrect);
+  view.get().updateReply(isCorrect);
 }
 
-  private void updateButtons(boolean isCorrect) {
-    view.get().updateReply(isCorrect);
-    view.get().updateButtons(isCorrect, true);
-  }
+
 
   @Override
   public void onNextButtonClicked() {
     Log.e(TAG, "onNextButtonClicked()");
-
     //TODO: falta implementacion
+    disableNextButton();
+    model.updateQuizIndex();
+    state.quizIndex=model.getQuizIndex();
+    state.question = model.getQuestion();
+    state.option1 = model.getOption1();
+    state.option2 = model.getOption2();
+    state.option3 = model.getOption3();
+    view.get().displayQuestion(state);
+    view.get().resetReply();
   }
 
   @Override
@@ -125,14 +128,17 @@ public void onOptionButtonClicked(int option) {
     state.optionEnabled=true;
     state.cheatEnabled=true;
     state.nextEnabled=false;
+    view.get().disableNextButton();
 
   }
 
-  private void enableNextButton() {
+  private void enableNextButton(boolean isCorrect) {
     state.optionEnabled=false;
-
+    state.cheatEnabled=!isCorrect;
+    view.get().enableNextButton(isCorrect, model.hasQuizFinished());
     if(!model.hasQuizFinished()) {
       state.nextEnabled=true;
+
     }
   }
 
